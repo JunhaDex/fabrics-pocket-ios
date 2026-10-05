@@ -2,3 +2,6 @@
 
 // 외부 HTTPS 도메인 확보 전까지 비워 둔다.
 POCKET_START_URL =
+
+// Info.plist의 #if DEBUG 블록을 제거한다.
+INFOPLIST_PREPROCESS = YES

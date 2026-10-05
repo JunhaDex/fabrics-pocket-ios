@@ -2,3 +2,7 @@
 
 // xcconfig에서 //는 주석이므로 $()로 끊는다.
 POCKET_START_URL = http:/$()/localhost:3000
+
+// Info.plist의 #if DEBUG 블록(localhost 평문 HTTP 허용)을 포함한다.
+INFOPLIST_PREPROCESS = YES
+INFOPLIST_PREPROCESSOR_DEFINITIONS = DEBUG=1

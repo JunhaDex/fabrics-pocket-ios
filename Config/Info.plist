@@ -4,5 +4,12 @@
 <dict>
 	<key>PocketStartURL</key>
 	<string>$(POCKET_START_URL)</string>
+#if DEBUG
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+#endif
 </dict>
 </plist>
