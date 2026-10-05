@@ -1,0 +1,4 @@
+#include "Pocket.xcconfig"
+
+// xcconfig에서 //는 주석이므로 $()로 끊는다.
+POCKET_START_URL = http:/$()/localhost:3000

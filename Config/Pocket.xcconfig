@@ -1,0 +1,2 @@
+// 앱 차원 값. 2단계에서 외부 주입으로 교체하는 지점이다.
+POCKET_BUNDLE_ID = com.fabrics.pocket
