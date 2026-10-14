@@ -5,8 +5,8 @@
 Debug 구성은 `http://localhost:3000`을 시작 화면으로 연다.
 
 1. 웹앱 dev 서버를 개발 머신의 `localhost:3000`에서 실행한다.
-   포트가 다르면 `Config/Debug.xcconfig`의 `POCKET_START_URL`을 바꾼다.
-   xcconfig에서 `//`는 주석이므로 `http:/$()/localhost:3001`처럼 쓴다.
+   다른 주소를 띄우려면 `Config/Local.xcconfig`(커밋 제외)를 만들어 `POCKET_START_URL`을
+   덮어쓴다. xcconfig에서 `//`는 주석이므로 `http:/$()/localhost:5173`처럼 쓴다.
 2. Xcode에서 Debug 구성으로 시뮬레이터에 실행한다.
    시뮬레이터는 개발 머신의 `localhost`를 그대로 쓰므로 추가 설정이 없다.
 

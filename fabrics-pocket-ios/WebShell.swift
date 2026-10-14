@@ -8,7 +8,8 @@ import WebKit
 
 @Observable
 final class WebShell: NSObject, WKNavigationDelegate, WKUIDelegate {
-    let webView = WKWebView()
+    let webView: WKWebView
+    @ObservationIgnored private let bridge: Bridge
     // 마지막 메인 프레임 로딩이 실패한 URL. nil이 아니면 오류 화면을 덮는다.
     private(set) var failedURL: URL?
     // 첫 메인 프레임 로딩이 실패 없이 끝났는지. true가 되면 로딩 화면을 걷고 다시 띄우지 않는다.
@@ -20,7 +21,25 @@ final class WebShell: NSObject, WKNavigationDelegate, WKUIDelegate {
     override init() {
         let hosts = Bundle.main.object(forInfoDictionaryKey: "PocketAllowedHosts") as? String ?? ""
         allowedHosts = Set(hosts.split(separator: " ").map(String.init))
+        let info = Bundle.main.infoDictionary ?? [:]
+        bridge = Bridge(
+            handlers: ["app.openSettings": { Self.openSettings($0, $1) }],
+            allowedHosts: allowedHosts,
+            runtimeVersion: info["PocketRuntimeVersion"] as? String ?? ""
+        )
+        let configuration = WKWebViewConfiguration()
+        bridge.install(in: configuration)
+        // 기본값(Mobile/<build>)을 유지하고 끝에 앱 토큰을 덧붙인다. 생성 전에 넣어야 적용된다.
+        let token = "\(info["PocketAppToken"] as? String ?? "")/\(info["CFBundleShortVersionString"] as? String ?? "")"
+        configuration.applicationNameForUserAgent = [configuration.applicationNameForUserAgent, token]
+            .compactMap { $0 }.joined(separator: " ")
+        webView = WKWebView(frame: .zero, configuration: configuration)
+        bridge.webView = webView
         super.init()
+        // 포그라운드 복귀를 알린다. 콜드 스타트에는 이 알림이 오지 않는다.
+        NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { [bridge] _ in
+            MainActor.assumeIsolated { bridge.emit("app.resume") }
+        }
         webView.navigationDelegate = self
         webView.uiDelegate = self
         // 문서 교체 사이에 기본 흰 배경이 비치지 않도록 시작 화면과 같은 색을 깐다.
@@ -35,6 +54,13 @@ final class WebShell: NSObject, WKNavigationDelegate, WKUIDelegate {
         if let value = Bundle.main.object(forInfoDictionaryKey: "PocketStartURL") as? String,
            let url = URL(string: value) {
             load(url)
+        }
+    }
+
+    // 이 앱의 시스템 설정 화면을 연다. 설정 화면을 연 시점에 ok로 응답한다.
+    private static func openSettings(_ params: [String: Any], _ reply: @escaping (BridgeResult) -> Void) {
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) { opened in
+            reply(opened ? .ok() : .error(.UNAVAILABLE))
         }
     }
 
