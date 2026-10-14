@@ -1,2 +1,6 @@
 // 앱 차원 값. 2단계에서 외부 주입으로 교체하는 지점이다.
 POCKET_BUNDLE_ID = com.fabrics.pocket
+
+// 화면 방향. 앱별로 좁힐 수 있는 값이다. v0.1은 전체 허용(iPhone은 upside-down 제외).
+INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight

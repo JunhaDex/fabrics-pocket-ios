@@ -4,6 +4,8 @@
 <dict>
 	<key>PocketStartURL</key>
 	<string>$(POCKET_START_URL)</string>
+	<key>PocketAllowedHosts</key>
+	<string>$(POCKET_ALLOWED_HOSTS)</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
