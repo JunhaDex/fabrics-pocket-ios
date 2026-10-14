@@ -11,6 +11,8 @@ final class WebShell: NSObject, WKNavigationDelegate {
     let webView = WKWebView()
     // 마지막 메인 프레임 로딩이 실패한 URL. nil이 아니면 오류 화면을 덮는다.
     private(set) var failedURL: URL?
+    // 첫 메인 프레임 로딩이 실패 없이 끝났는지. true가 되면 로딩 화면을 걷고 다시 띄우지 않는다.
+    private(set) var launched = false
     @ObservationIgnored private var loadFailed = false
 
     override init() {
@@ -45,7 +47,10 @@ final class WebShell: NSObject, WKNavigationDelegate {
 
     // 재시도가 성공할 때까지 오류 화면을 유지한다.
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if !loadFailed { failedURL = nil }
+        if !loadFailed {
+            failedURL = nil
+            launched = true
+        }
     }
 
     private func fail(_ error: Error) {
