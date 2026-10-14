@@ -6,6 +6,10 @@
 	<string>$(POCKET_START_URL)</string>
 	<key>PocketAllowedHosts</key>
 	<string>$(POCKET_ALLOWED_HOSTS)</string>
+	<key>PocketAppToken</key>
+	<string>$(POCKET_APP_TOKEN)</string>
+	<key>PocketRuntimeVersion</key>
+	<string>$(POCKET_RUNTIME_VERSION)</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

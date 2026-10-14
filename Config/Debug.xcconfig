@@ -1,4 +1,5 @@
 #include "Pocket.xcconfig"
+#include "Runtime.xcconfig"
 
 // xcconfig에서 //는 주석이므로 $()로 끊는다.
 POCKET_START_URL = http:/$()/localhost:3000
@@ -9,3 +10,6 @@ POCKET_ALLOWED_HOSTS = localhost
 // Info.plist의 #if DEBUG 블록(localhost 평문 HTTP 허용)을 포함한다.
 INFOPLIST_PREPROCESS = YES
 INFOPLIST_PREPROCESSOR_DEFINITIONS = DEBUG=1
+
+// 커밋하지 않는 기기별 덮어쓰기(예: POCKET_START_URL을 bridge-test로). 없으면 무시한다.
+#include? "Local.xcconfig"
