@@ -3,6 +3,9 @@
 // xcconfig에서 //는 주석이므로 $()로 끊는다.
 POCKET_START_URL = http:/$()/localhost:3000
 
+// 웹뷰 안에서 표시할 호스트(공백 구분). 목록 밖의 이동은 시스템 브라우저로 넘긴다.
+POCKET_ALLOWED_HOSTS = localhost
+
 // Info.plist의 #if DEBUG 블록(localhost 평문 HTTP 허용)을 포함한다.
 INFOPLIST_PREPROCESS = YES
 INFOPLIST_PREPROCESSOR_DEFINITIONS = DEBUG=1
